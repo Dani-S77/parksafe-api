@@ -18,7 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "/vehicles")
+@Table(name = "vehicles")
 @Data
 @Builder
 @NoArgsConstructor
@@ -46,7 +46,7 @@ public class Vehicle {
 
   @Column(nullable = false)
   @Builder.Default
-  private Boolean active = True;
+  private Boolean active = true;
 
   @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY)
   private List<Ticket> tickets;
