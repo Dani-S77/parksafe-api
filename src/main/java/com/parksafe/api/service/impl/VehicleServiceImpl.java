@@ -9,6 +9,7 @@ import com.parksafe.api.dto.request.VehicleUpdateRequest;
 import com.parksafe.api.dto.response.VehicleResponse;
 import com.parksafe.api.entity.Vehicle;
 import com.parksafe.api.exception.ConflictException;
+import com.parksafe.api.exception.ResourceNotFoundException;
 import com.parksafe.api.repository.VehicleRepository;
 import com.parksafe.api.service.VehicleService;
 
@@ -68,37 +69,37 @@ public class VehicleServiceImpl implements VehicleService {
 
     if (request.getVehicleType() != null &&
         !request.getVehicleType().equals(vehicle.getVehicleType())) {
-          vehicle.setVehicleType(request.getVehicleType());
-          hasChanges =true;
+      vehicle.setVehicleType(request.getVehicleType());
+      hasChanges = true;
     }
-    if(request.getBrand() != null &&
-         !request.getBrand().equals(vehicle.getBrand())){
-          vehicle.setBrand(request.getBrand());
-          hasChanges=true;
-         }
-    if(request.getOwnerName() != null &&
-        !request.getOwnerName().equals(vehicle.getOwnerName())){
-          vehicle.setOwnerName(vehicle.getOwnerName());
-          hasChanges=true;
-        }
-      if(request.getOwnerPhone() != null &&
-            !request.getOwnerPhone().equals(vehicle.getOwnerPhone())){
-              vehicle.setOwnerPhone(request.getOwnerPhone());
-              hasChanges=true;
-            }
-      if(request.getActive()!= null &&
-          !request.getActive()equals(vehicle.getActive())){
-            vehicle.setActive(request.getActive());
-            hasChanges=true;
-          }
+    if (request.getBrand() != null &&
+        !request.getBrand().equals(vehicle.getBrand())) {
+      vehicle.setBrand(request.getBrand());
+      hasChanges = true;
+    }
+    if (request.getOwnerName() != null &&
+        !request.getOwnerName().equals(vehicle.getOwnerName())) {
+      vehicle.setOwnerName(vehicle.getOwnerName());
+      hasChanges = true;
+    }
+    if (request.getOwnerPhone() != null &&
+        !request.getOwnerPhone().equals(vehicle.getOwnerPhone())) {
+      vehicle.setOwnerPhone(request.getOwnerPhone());
+      hasChanges = true;
+    }
+    if (request.getActive() != null &&
+        !request.getActive().equals(vehicle.getActive())) {
+      vehicle.setActive(request.getActive());
+      hasChanges = true;
+    }
 
-        if(!hasChanges){
-          throw new ConflictException(
-            "NO_CHANGES_DETECTED",
-            "The request doesn't have anything camp difrent to the  storage"
-          );
-          vehicleRepository.save(vehicle);
-        }
+    if (!hasChanges) {
+      throw new ConflictException(
+          "NO_CHANGES_DETECTED",
+          "The request doesn't have anything camp difrent to the  storage");
+    }
+    vehicleRepository.save(vehicle);
+  }
 
   public void delete(String plate) {
     Vehicle vehicle = getVehicleOrThrow(plate);
@@ -122,4 +123,10 @@ public class VehicleServiceImpl implements VehicleService {
     }
   }
 
+  public Vehicle getVehicleOrThrow(String plate) {
+    return vehicleRepository.findByPlate(plate)
+        .orElseThrow(() -> new ResourceNotFoundException(
+            "VEHICLE_NOT_FOUND",
+            "There isn't vehicle with this plate:" + plate));
+  }
 }

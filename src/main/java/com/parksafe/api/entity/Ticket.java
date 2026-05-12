@@ -26,6 +26,5 @@ public class Ticket {
   private Vehicle vehicle;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "status")
-  private TicketStatus ticketStatus;
+  private TicketStatus status;
 }
