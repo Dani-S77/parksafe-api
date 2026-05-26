@@ -18,8 +18,8 @@ public interface SpaceService {
 
   List<SpaceResponse> findAvailableByVehicleType(VehicleType vehicleType);
 
-  Void update(UUID uuid, SpaceUpdateRequest request);
+  void update(UUID uuid, SpaceUpdateRequest request);
 
-  Void delete(UUID uuid);
+  void delete(UUID uuid);
 
 }
