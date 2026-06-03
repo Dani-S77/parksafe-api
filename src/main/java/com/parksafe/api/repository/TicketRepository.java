@@ -14,7 +14,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
   Optional<Ticket> findByUuid(UUID uuid);
 
-  boolean existsBySpaceAndStatus(Long spaceId, TicketStatus status);
+  boolean existsBySpaceIdAndStatus(Long spaceId, TicketStatus status);
 
   boolean existsByVehiclePlateAndStatus(String plate, TicketStatus status);
 

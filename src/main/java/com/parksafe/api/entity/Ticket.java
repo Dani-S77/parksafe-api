@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -67,4 +68,11 @@ public class Ticket {
 
   @Column(name = "total_Amount", precision = 12, scale = 2)
   private BigDecimal totalAmount;
+
+  @PrePersist
+  public void generateUuid() {
+    if (this.uuid == null) {
+      this.uuid = UUID.randomUUID();
+    }
+  }
 }
